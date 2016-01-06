@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import billywangwang.main.game.tiles.GrassTile;
+import billywangwang.main.game.tiles.PlayerSpawnTile;
 import billywangwang.main.game.tiles.Tile;
 import billywangwang.main.game.undo.UndoEvent;
 
@@ -34,6 +35,8 @@ public class Level {
 	private boolean undoPressed = false;
 
 	private static LinkedList<Tile> tiles = new LinkedList<Tile>();
+	
+	private PlayerSpawnTile playerSpawn;
 
 	private Brush brush;
 
@@ -42,6 +45,8 @@ public class Level {
 
 		width = 32 * 32;
 		height = 32 * 32;
+		
+		playerSpawn = new PlayerSpawnTile(0, 0);
 	}
 
 	public void tick(double scale, double tx, double ty) {
@@ -56,6 +61,7 @@ public class Level {
 		}
 
 		brush.tick(scale, tx, ty);
+		playerSpawn.tick();
 		
 		if(GameScreen.getKeyInput().isKeyDown(KeyEvent.VK_W))
 			GameScreen.moveUp(moveSpeed * moveFactor);
@@ -107,8 +113,10 @@ public class Level {
 			if(t != null){
 				t.render(g);
 			}
-			
 		}
+		
+		playerSpawn.render(g);
+		
 		g.setColor(Color.ORANGE);
 		g.drawRect(0, 0, width, height);
 		brush.render(g);
@@ -133,33 +141,44 @@ public class Level {
 				string.append("\n");
 			}
 
-			FileOutputStream fos;
-			File file;
-
 			try {
 				Path currentRelativePath = Paths.get("");
 				
 				new File(currentRelativePath.toAbsolutePath().toString() + "\\levels\\" + fileName).mkdirs();
 				
-				file = new File(currentRelativePath.toAbsolutePath().toString() + "\\levels\\" + fileName + "\\" + fileName + ".tile");
+				File tileFile = new File(currentRelativePath.toAbsolutePath().toString() + "\\levels\\" + fileName + "\\" + fileName + ".tile");
 				File levelFile = new File(currentRelativePath.toAbsolutePath().toString() + "\\levels\\" + fileName + ".level");
 
-				if (!file.exists()) {
-					file.createNewFile();
+				if (!tileFile.exists()) {
+					tileFile.createNewFile();
 				}
 				
 				if(!levelFile.exists())
 					levelFile.createNewFile();
 
-				fos = new FileOutputStream(file);
+				FileOutputStream tileOutput = new FileOutputStream(tileFile);
 
-				fos.write(string.toString().getBytes());
+				tileOutput.write(string.toString().getBytes());
 
-				fos.close();
+				tileOutput.close();
+				
+				File spawnFile = new File(currentRelativePath.toAbsolutePath().toString() + "\\levels\\" + fileName + "\\" + fileName + ".spawn");
+				
+				if(!spawnFile.exists()){
+					spawnFile.createNewFile();
+				}
+				
+				FileOutputStream spawnOutput = new FileOutputStream(spawnFile);
+				
+				spawnOutput.write(("/" + playerSpawn.getX() + "/" + playerSpawn.getY() + "/").getBytes());
+				
+				spawnOutput.close();
 				
 				FileOutputStream fos2 = new FileOutputStream(levelFile);
 				
-				fos2.write(fileName.getBytes());
+				fos2.write(("/t" + currentRelativePath.toAbsolutePath().toString() + "\\levels\\" + fileName + "\\" + fileName + ".tile").getBytes());
+				fos2.write("\n".getBytes());
+				fos2.write("end".getBytes());
 				
 				fos2.close();
 
@@ -187,14 +206,12 @@ public class Level {
 
 			try {
 				String folderName = fileChooser.getSelectedFile().getName().split(".level")[0];
-				File file = new File(currentRelativePath.toAbsolutePath().toString() + "\\levels\\" + folderName + "\\" + folderName + ".tile");
+				File tileFile = new File(currentRelativePath.toAbsolutePath().toString() + "\\levels\\" + folderName + "\\" + folderName + ".tile");
 
-				Scanner s = new Scanner(file);
+				Scanner tileScanner = new Scanner(tileFile);
 				
-				String line;
-				
-				while(s.hasNext()){
-					line = s.nextLine();
+				while(tileScanner.hasNext()){
+					String line = tileScanner.nextLine();
 					
 					String[] args = line.split("/");
 					
@@ -204,7 +221,21 @@ public class Level {
 					}
 				}
 				
-				s.close();
+				tileScanner.close();
+				
+				File spawnFile = new File(currentRelativePath.toAbsolutePath().toString() + "\\levels\\" + folderName + "\\" + folderName + ".spawn");
+				
+				Scanner spawnScanner = new Scanner(spawnFile);
+				
+				while(spawnScanner.hasNext()){
+					String line = spawnScanner.nextLine();
+					
+					String[] args = line.split("/");
+					
+					playerSpawn = new PlayerSpawnTile(Integer.parseInt(args[1]), Integer.parseInt(args[2]));
+				}
+				
+				spawnScanner.close();
 				
 				GameScreen.undo.add(new UndoEvent(){
 					public void undo(){
@@ -247,5 +278,17 @@ public class Level {
 	
 	public double getTranslateY(){
 		return ty;
+	}
+	
+	public Brush getBrush(){
+		return brush;
+	}
+	
+	public void setPlayerSpawn(PlayerSpawnTile t){
+		playerSpawn = t;
+	}
+	
+	public PlayerSpawnTile getPlayerSpawn(){
+		return playerSpawn;
 	}
 }

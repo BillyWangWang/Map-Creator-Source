@@ -9,21 +9,24 @@ public abstract class Tile {
 	public static final int WIDTH = 32, HEIGHT = 32;
 	
 	public static final int ID_GRASS = 0;
+	public static final int ID_PLAYER_SPAWN = 1;
 	
 	protected int id;
 	protected int x, y;
 	
-	public Tile(int id, int xx, int yy){
+	public Tile(int id, boolean init, int xx, int yy){
 		this.id = id;
 		x = xx;
 		y = yy;
 		
-		for(int i = 0; i < GameScreen.getLevel().getTiles().size(); i++){
-			Tile t = GameScreen.getLevel().getTiles().get(i);
-			
-			if(t != null){			
-				if(t.getX() == x && t.getY() == y){
-					GameScreen.getLevel().getTiles().remove(this);
+		if(init){
+			for(int i = 0; i < GameScreen.getLevel().getTiles().size(); i++){
+				Tile t = GameScreen.getLevel().getTiles().get(i);
+				
+				if(t != null){			
+					if(t.getX() == x && t.getY() == y){
+						GameScreen.getLevel().getTiles().remove(this);
+					}
 				}
 			}
 		}

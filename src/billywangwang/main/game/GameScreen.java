@@ -99,8 +99,16 @@ public class GameScreen extends Canvas implements Runnable {
 				delta--;
 			}
 			
-			render();
-			frames++;
+			if(frames < ticks){
+				render();
+				frames++;
+			}
+			
+			try {
+				Thread.sleep(3);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			
 			if(System.currentTimeMillis() - timer > 1000){
 				System.out.println(frames + " fps, " + ticks + " ticks");

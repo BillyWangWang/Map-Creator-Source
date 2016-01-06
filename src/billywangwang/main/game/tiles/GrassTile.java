@@ -7,7 +7,7 @@ import billywangwang.main.game.GameScreen;
 public class GrassTile extends Tile {
 
 	public GrassTile(int xx, int yy) {
-		super(Tile.ID_GRASS, xx, yy);
+		super(Tile.ID_GRASS, true, xx, yy);
 	}
 
 	public void tick() {

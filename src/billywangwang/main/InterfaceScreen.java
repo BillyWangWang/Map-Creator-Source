@@ -17,6 +17,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import billywangwang.main.game.GameScreen;
+import billywangwang.main.game.tiles.Tile;
 import billywangwang.main.game.undo.UndoEvent;
 
 @SuppressWarnings("serial")
@@ -40,7 +41,7 @@ public class InterfaceScreen extends JPanel {
 		//Options
 		Border defaultBorder = BorderFactory.createLineBorder(new Color(0, 75, 0), 3, true);
 		
-		String[] options = {"Change Size", "Add Event"};
+		String[] options = {"Change Size", "Add Character Spawn", "Add Tiles", "Add Event"};
 		optionsList = new JList<String>(options);
 		DefaultListCellRenderer renderer = (DefaultListCellRenderer)optionsList.getCellRenderer();
 		renderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -66,8 +67,14 @@ public class InterfaceScreen extends JPanel {
 									GameScreen.getLevel().height = h;
 								}
 							});
-						}
+						}	
 					}
+				}
+				else if(optionsList.getSelectedIndex() == 1){
+					GameScreen.getLevel().getBrush().setBrushType(Tile.ID_PLAYER_SPAWN);
+				}
+				else if(optionsList.getSelectedIndex() == 2){
+					GameScreen.getLevel().getBrush().setBrushType(Tile.ID_GRASS);
 				}
 				optionsList.clearSelection();
 				Main.getGameScreen().requestFocus();

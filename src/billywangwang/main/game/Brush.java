@@ -5,21 +5,16 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 
 import billywangwang.main.game.tiles.GrassTile;
+import billywangwang.main.game.tiles.PlayerSpawnTile;
 import billywangwang.main.game.tiles.Tile;
 import billywangwang.main.game.undo.UndoEvent;
 
 public class Brush {
 	
-	public static final int TYPE_DRAW = 0;
-	public static final int TYPE_ERASE = 1;
-	public static final int TYPE_SELECT = 2;
-	
 	private double scale = 1.0;
 	private double tx = 0.0, ty = 0.0;
 	
-
-	
-	private int tileIndex = 0;
+	private int brushIndex = 0;
 	
 	private boolean leftButtonPressed = false;
 	private boolean rightButtonPressed = false;
@@ -39,16 +34,27 @@ public class Brush {
 		fmy *= 32;
 		
 		if(GameScreen.getMouseInput().isButtonDown(MouseEvent.BUTTON1) && !leftButtonPressed){
-			switch(tileIndex){
+			switch(brushIndex){
 			case Tile.ID_GRASS:
-				GrassTile t = new GrassTile(fmx, fmy);
-				GameScreen.getLevel().getTiles().add(t);
+				GrassTile grassTile = new GrassTile(fmx, fmy);
+				GameScreen.getLevel().getTiles().add(grassTile);
 				GameScreen.undo.add(new UndoEvent(){
 					public void undo(){
-						GameScreen.getLevel().removeTile(t.getX(), t.getY());
+						GameScreen.getLevel().removeTile(grassTile.getX(), grassTile.getY());
 					}
 				});
 				break;
+				
+			case Tile.ID_PLAYER_SPAWN:
+				PlayerSpawnTile playerSpawn = new PlayerSpawnTile(fmx, fmy);
+				int x = GameScreen.getLevel().getPlayerSpawn().getX();
+				int y = GameScreen.getLevel().getPlayerSpawn().getY();
+				GameScreen.getLevel().setPlayerSpawn(playerSpawn);
+				GameScreen.undo.add(new UndoEvent(){
+					public void undo(){
+						GameScreen.getLevel().setPlayerSpawn(new PlayerSpawnTile(x, y));
+					}
+				});
 			}
 			leftButtonPressed = true;
 		}
@@ -72,11 +78,7 @@ public class Brush {
 			if(!GameScreen.getMouseInput().isButtonDown(MouseEvent.BUTTON3)){
 				rightButtonPressed = false;
 			}
-		}
-		
-
-		
-		
+		}		
 	}
 	
 	public void render(Graphics g){
@@ -90,6 +92,10 @@ public class Brush {
 		fmy *= 32;
 		g.setColor(Color.WHITE);
 		g.drawRect(fmx, fmy, 32, 32);
+	}
+	
+	public void setBrushType(int id){
+		brushIndex = id;
 	}
 
 }

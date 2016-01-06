@@ -41,7 +41,7 @@ public class InterfaceScreen extends JPanel {
 		//Options
 		Border defaultBorder = BorderFactory.createLineBorder(new Color(0, 75, 0), 3, true);
 		
-		String[] options = {"Change Size", "Add Character Spawn", "Add Tiles", "Add Event"};
+		String[] options = {"Change Size", "Change Tile", "Add Event"};
 		optionsList = new JList<String>(options);
 		DefaultListCellRenderer renderer = (DefaultListCellRenderer)optionsList.getCellRenderer();
 		renderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -71,10 +71,16 @@ public class InterfaceScreen extends JPanel {
 					}
 				}
 				else if(optionsList.getSelectedIndex() == 1){
-					GameScreen.getLevel().getBrush().setBrushType(Tile.ID_PLAYER_SPAWN);
-				}
-				else if(optionsList.getSelectedIndex() == 2){
-					GameScreen.getLevel().getBrush().setBrushType(Tile.ID_GRASS);
+					Object[] tiles = {"Grass", "Player Spawn"};
+					String s = (String)JOptionPane.showInputDialog(null, "Tiles", "Input", JOptionPane.PLAIN_MESSAGE, null, tiles, "Tile");
+					if(s != null && !s.equals("Tile")){
+						if(s.equals("Grass")){
+							GameScreen.getLevel().getBrush().setBrushType(Tile.ID_GRASS);
+						}
+						else if(s.equals("Player Spawn")){
+							GameScreen.getLevel().getBrush().setBrushType(Tile.ID_PLAYER_SPAWN);
+						}
+					}
 				}
 				optionsList.clearSelection();
 				Main.getGameScreen().requestFocus();

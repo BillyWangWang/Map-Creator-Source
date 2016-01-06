@@ -16,6 +16,6 @@ public class GrassTile extends Tile {
 	}
 
 	public void render(Graphics g) {
-		g.drawImage(GameScreen.testImage, (int)x, (int)y, null);
+		g.drawImage(GameScreen.sprites[0], (int)x, (int)y, null);
 	}
 }

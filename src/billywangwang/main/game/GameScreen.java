@@ -14,6 +14,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import billywangwang.main.Main;
+import billywangwang.main.game.graphics.SpriteSheet;
 import billywangwang.main.game.input.KeyInput;
 import billywangwang.main.game.input.MouseInput;
 import billywangwang.main.game.undo.UndoQueue;
@@ -23,7 +24,8 @@ public class GameScreen extends Canvas implements Runnable {
 	
 	public static final int WIDTH = Main.WIDTH - 350, HEIGHT = Main.HEIGHT;
 	
-	public static BufferedImage testImage;
+	public static SpriteSheet spriteSheet;
+	public static BufferedImage[] sprites;
 	
 	public static UndoQueue undo;
 	
@@ -45,6 +47,16 @@ public class GameScreen extends Canvas implements Runnable {
 	private int lmy = 0;
 	
 	public GameScreen(){
+		spriteSheet = new SpriteSheet("/Sprite Sheet.png");
+		
+		sprites = new BufferedImage[(spriteSheet.getSpriteSheetImage().getWidth() / 32) + (spriteSheet.getSpriteSheetImage().getHeight() / 32)];
+		
+		for(int x = 0; x < spriteSheet.getSpriteSheetImage().getWidth() / 32; x++){
+			for(int y = 0; y < spriteSheet.getSpriteSheetImage().getHeight() / 32; y++){
+				sprites[x + y] = spriteSheet.getImage(x, y, 32, 32);
+			}
+		}
+		
 		Dimension size = new Dimension(Main.WIDTH - 350, Main.HEIGHT);
 		setPreferredSize(size);
 		
@@ -54,12 +66,6 @@ public class GameScreen extends Canvas implements Runnable {
 		addKeyListener(keyInput = new KeyInput());
 		
 		level = new Level();
-		
-		try {
-			testImage = ImageIO.read(GameScreen.class.getResourceAsStream("/test.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		
 		tx = 0 + (WIDTH / 8);
 		ty = 0 + (HEIGHT / 2);

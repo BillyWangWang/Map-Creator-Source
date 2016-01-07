@@ -8,13 +8,9 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import billywangwang.main.Main;
-import billywangwang.main.game.graphics.SpriteSheet;
+import billywangwang.main.Resources;
 import billywangwang.main.game.input.KeyInput;
 import billywangwang.main.game.input.MouseInput;
 import billywangwang.main.game.undo.UndoQueue;
@@ -24,10 +20,9 @@ public class GameScreen extends Canvas implements Runnable {
 	
 	public static final int WIDTH = Main.WIDTH - 350, HEIGHT = Main.HEIGHT;
 	
-	public static SpriteSheet spriteSheet;
-	public static BufferedImage[] sprites;
-	
 	public static UndoQueue undo;
+	
+	public static Resources resources;
 	
 	private boolean running = false;
 	private Thread thread = new Thread(this, "GameView Thread");
@@ -47,15 +42,7 @@ public class GameScreen extends Canvas implements Runnable {
 	private int lmy = 0;
 	
 	public GameScreen(){
-		spriteSheet = new SpriteSheet("/Sprite Sheet.png");
-		
-		sprites = new BufferedImage[(spriteSheet.getSpriteSheetImage().getWidth() / 32) + (spriteSheet.getSpriteSheetImage().getHeight() / 32)];
-		
-		for(int x = 0; x < spriteSheet.getSpriteSheetImage().getWidth() / 32; x++){
-			for(int y = 0; y < spriteSheet.getSpriteSheetImage().getHeight() / 32; y++){
-				sprites[x + y] = spriteSheet.getImage(x, y, 32, 32);
-			}
-		}
+		resources = new Resources();
 		
 		Dimension size = new Dimension(Main.WIDTH - 350, Main.HEIGHT);
 		setPreferredSize(size);

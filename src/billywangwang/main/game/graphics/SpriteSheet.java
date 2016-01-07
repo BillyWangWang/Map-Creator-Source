@@ -4,8 +4,6 @@ import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
-import java.awt.image.BufferedImage;
-
 public class SpriteSheet {
 	
 	public BufferedImage spriteSheet;

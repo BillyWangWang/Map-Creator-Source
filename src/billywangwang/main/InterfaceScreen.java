@@ -17,8 +17,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import billywangwang.main.game.GameScreen;
-import billywangwang.main.game.tiles.Tile;
 import billywangwang.main.game.undo.UndoEvent;
+import billywangwang.main.tile.TileConstants;
 
 @SuppressWarnings("serial")
 public class InterfaceScreen extends JPanel {
@@ -75,10 +75,10 @@ public class InterfaceScreen extends JPanel {
 					String s = (String)JOptionPane.showInputDialog(null, "Tiles", "Input", JOptionPane.PLAIN_MESSAGE, null, tiles, "Tile");
 					if(s != null && !s.equals("Tile")){
 						if(s.equals("Grass")){
-							GameScreen.getLevel().getBrush().setBrushType(Tile.ID_GRASS);
+							GameScreen.getLevel().getBrush().setBrushType(TileConstants.ID_GRASS);
 						}
 						else if(s.equals("Player Spawn")){
-							GameScreen.getLevel().getBrush().setBrushType(Tile.ID_PLAYER_SPAWN);
+							GameScreen.getLevel().getBrush().setBrushType(TileConstants.ID_PLAYER_SPAWN);
 						}
 					}
 				}

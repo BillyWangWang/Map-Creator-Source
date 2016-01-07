@@ -174,13 +174,13 @@ public class Level {
 				
 				spawnOutput.close();
 				
-				FileOutputStream fos2 = new FileOutputStream(levelFile);
+				FileOutputStream levelOutput = new FileOutputStream(levelFile);
 				
-				fos2.write(("/t" + currentRelativePath.toAbsolutePath().toString() + "\\levels\\" + fileName + "\\" + fileName + ".tile").getBytes());
-				fos2.write("\n".getBytes());
-				fos2.write("end".getBytes());
+				levelOutput.write(("/t" + fileName + ".tile").getBytes());
+				levelOutput.write("\n".getBytes());
+				levelOutput.write("end".getBytes());
 				
-				fos2.close();
+				levelOutput.close();
 
 				JOptionPane.showMessageDialog(null, "Saved!");
 			} catch (Exception e) {

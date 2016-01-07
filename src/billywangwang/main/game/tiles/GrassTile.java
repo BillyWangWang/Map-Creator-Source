@@ -3,11 +3,12 @@ package billywangwang.main.game.tiles;
 import java.awt.Graphics;
 
 import billywangwang.main.game.GameScreen;
+import billywangwang.main.tile.TileConstants;
 
 public class GrassTile extends Tile {
 
 	public GrassTile(int xx, int yy) {
-		super(Tile.ID_GRASS, true, xx, yy);
+		super(TileConstants.ID_GRASS, true, xx, yy);
 	}
 
 	public void tick() {
@@ -16,6 +17,6 @@ public class GrassTile extends Tile {
 	}
 
 	public void render(Graphics g) {
-		g.drawImage(GameScreen.sprites[0], (int)x, (int)y, null);
+		g.drawImage(GameScreen.resources.grass, (int)x, (int)y, null);
 	}
 }

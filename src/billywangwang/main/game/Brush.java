@@ -8,6 +8,7 @@ import billywangwang.main.game.tiles.GrassTile;
 import billywangwang.main.game.tiles.PlayerSpawnTile;
 import billywangwang.main.game.tiles.Tile;
 import billywangwang.main.game.undo.UndoEvent;
+import billywangwang.main.tile.TileConstants;
 
 public class Brush {
 	
@@ -35,7 +36,7 @@ public class Brush {
 		
 		if(GameScreen.getMouseInput().isButtonDown(MouseEvent.BUTTON1) && !leftButtonPressed){
 			switch(brushIndex){
-			case Tile.ID_GRASS:
+			case TileConstants.ID_GRASS:
 				GrassTile grassTile = new GrassTile(fmx, fmy);
 				GameScreen.getLevel().getTiles().add(grassTile);
 				GameScreen.undo.add(new UndoEvent(){
@@ -45,7 +46,7 @@ public class Brush {
 				});
 				break;
 				
-			case Tile.ID_PLAYER_SPAWN:
+			case TileConstants.ID_PLAYER_SPAWN:
 				PlayerSpawnTile playerSpawn = new PlayerSpawnTile(fmx, fmy);
 				int x = GameScreen.getLevel().getPlayerSpawn().getX();
 				int y = GameScreen.getLevel().getPlayerSpawn().getY();

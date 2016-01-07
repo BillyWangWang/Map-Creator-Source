@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
+import billywangwang.main.tile.TileConstants;
+
 public class PlayerSpawnTile extends Tile {
 
 	public PlayerSpawnTile(int xx, int yy) {
-		super(Tile.ID_PLAYER_SPAWN, false, xx, yy);
+		super(TileConstants.ID_PLAYER_SPAWN, false, xx, yy);
 	}
 
 	public void tick() {

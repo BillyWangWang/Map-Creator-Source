@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 
-import billywangwang.main.game.tiles.GrassTile;
 import billywangwang.main.game.tiles.PlayerSpawnTile;
 import billywangwang.main.game.tiles.Tile;
 import billywangwang.main.game.undo.UndoEvent;
@@ -35,22 +34,19 @@ public class Brush {
 		fmy *= 32;
 		
 		if(GameScreen.getMouseInput().isButtonDown(MouseEvent.BUTTON1) && !leftButtonPressed){
-			switch(brushIndex){
-			case TileConstants.ID_GRASS:
-				GrassTile grassTile = new GrassTile(fmx, fmy);
-				GameScreen.getLevel().getTiles().add(grassTile);
+			if(brushIndex != TileConstants.ID_PLAYER_SPAWN){
+				Tile t = GameScreen.getLevel().createTile(brushIndex, fmx, fmy);
+				GameScreen.getLevel().getTiles().add(t);
 				GameScreen.undo.add(new UndoEvent(){
 					public void undo(){
-						GameScreen.getLevel().removeTile(grassTile.getX(), grassTile.getY());
+						GameScreen.getLevel().getTiles().remove(t);
 					}
 				});
-				break;
-				
-			case TileConstants.ID_PLAYER_SPAWN:
-				PlayerSpawnTile playerSpawn = new PlayerSpawnTile(fmx, fmy);
+			}
+			else{
 				int x = GameScreen.getLevel().getPlayerSpawn().getX();
 				int y = GameScreen.getLevel().getPlayerSpawn().getY();
-				GameScreen.getLevel().setPlayerSpawn(playerSpawn);
+				GameScreen.getLevel().setPlayerSpawn(new PlayerSpawnTile(fmx, fmy));
 				GameScreen.undo.add(new UndoEvent(){
 					public void undo(){
 						GameScreen.getLevel().setPlayerSpawn(new PlayerSpawnTile(x, y));

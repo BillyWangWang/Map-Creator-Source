@@ -71,14 +71,19 @@ public class InterfaceScreen extends JPanel {
 					}
 				}
 				else if(optionsList.getSelectedIndex() == 1){
-					Object[] tiles = {"Grass", "Player Spawn"};
+					Object[] tiles = {"Grass", "Player Spawn", "Water"};
 					String s = (String)JOptionPane.showInputDialog(null, "Tiles", "Input", JOptionPane.PLAIN_MESSAGE, null, tiles, "Tile");
 					if(s != null && !s.equals("Tile")){
-						if(s.equals("Grass")){
+						switch(s){
+						case "Grass":
 							GameScreen.getLevel().getBrush().setBrushType(TileConstants.ID_GRASS);
-						}
-						else if(s.equals("Player Spawn")){
+							break;
+						case "Player Spawn":
 							GameScreen.getLevel().getBrush().setBrushType(TileConstants.ID_PLAYER_SPAWN);
+							break;
+						case "Water":
+							GameScreen.getLevel().getBrush().setBrushType(TileConstants.ID_WATER);
+							break;
 						}
 					}
 				}

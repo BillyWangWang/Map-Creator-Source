@@ -17,7 +17,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import billywangwang.main.game.tiles.GrassTile;
 import billywangwang.main.game.tiles.PlayerSpawnTile;
 import billywangwang.main.game.tiles.Tile;
+import billywangwang.main.game.tiles.WaterTile;
 import billywangwang.main.game.undo.UndoEvent;
+import billywangwang.main.tile.TileConstants;
 
 public class Level {
 
@@ -121,6 +123,19 @@ public class Level {
 		g.drawRect(0, 0, width, height);
 		brush.render(g);
 	}
+	
+	public Tile createTile(int id, int x, int y){
+		switch(id){
+		case TileConstants.ID_GRASS:
+			return new GrassTile(x, y);
+		case TileConstants.ID_PLAYER_SPAWN:
+			return new PlayerSpawnTile(x, y);
+		case TileConstants.ID_WATER:
+			return new WaterTile(x, y);
+		}
+		
+		return null;
+	}
 
 	public void save() {
 		String fileName = JOptionPane.showInputDialog("Enter a name - ");
@@ -215,10 +230,7 @@ public class Level {
 					
 					String[] args = line.split("/");
 					
-					switch(args[1]){
-					case "0":
-						tiles.add(new GrassTile(Integer.parseInt(args[2]), Integer.parseInt(args[3])));
-					}
+					GameScreen.getLevel().getTiles().add(GameScreen.getLevel().createTile(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3])));
 				}
 				
 				tileScanner.close();

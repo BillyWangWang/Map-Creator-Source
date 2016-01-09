@@ -1,12 +1,12 @@
 package billywangwang.main.game.tiles;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import billywangwang.main.game.GameScreen;
+import billywangwang.main.tile.TileConstants;
 
 public abstract class Tile {
-	
-	public static final int WIDTH = 32, HEIGHT = 32;
 	
 	protected int id;
 	protected int x, y;
@@ -31,6 +31,10 @@ public abstract class Tile {
 	
 	public abstract void tick();
 	public abstract void render(Graphics g);
+	
+	public Rectangle getBounds(){
+		return new Rectangle(x, y, TileConstants.WIDTH, TileConstants.HEIGHT);
+	}
 
 	public int getId() {
 		return id;

@@ -14,8 +14,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import billywangwang.main.game.tiles.DesertTile;
 import billywangwang.main.game.tiles.GrassTile;
 import billywangwang.main.game.tiles.PlayerSpawnTile;
+import billywangwang.main.game.tiles.StoneTile;
 import billywangwang.main.game.tiles.Tile;
 import billywangwang.main.game.tiles.WaterTile;
 import billywangwang.main.game.undo.UndoEvent;
@@ -132,6 +134,10 @@ public class Level {
 			return new PlayerSpawnTile(x, y);
 		case TileConstants.ID_WATER:
 			return new WaterTile(x, y);
+		case TileConstants.ID_STONE:
+			return new StoneTile(x, y);
+		case TileConstants.ID_DESERT:
+			return new DesertTile(x, y);
 		}
 		
 		return null;

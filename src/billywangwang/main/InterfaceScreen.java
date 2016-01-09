@@ -18,6 +18,7 @@ import javax.swing.event.ListSelectionListener;
 
 import billywangwang.main.game.GameScreen;
 import billywangwang.main.game.undo.UndoEvent;
+import billywangwang.main.graphics.BrushConstants;
 import billywangwang.main.tile.TileConstants;
 
 @SuppressWarnings("serial")
@@ -41,7 +42,7 @@ public class InterfaceScreen extends JPanel {
 		//Options
 		Border defaultBorder = BorderFactory.createLineBorder(new Color(0, 75, 0), 3, true);
 		
-		String[] options = {"Change Size", "Change Tile", "Add Event"};
+		String[] options = {"Change Size", "Change Tile", "Change Tool"};
 		optionsList = new JList<String>(options);
 		DefaultListCellRenderer renderer = (DefaultListCellRenderer)optionsList.getCellRenderer();
 		renderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -71,7 +72,7 @@ public class InterfaceScreen extends JPanel {
 					}
 				}
 				else if(optionsList.getSelectedIndex() == 1){
-					Object[] tiles = {"Grass", "Player Spawn", "Water"};
+					Object[] tiles = {"Grass", "Player Spawn", "Water", "Desert", "Stone"};
 					String s = (String)JOptionPane.showInputDialog(null, "Tiles", "Input", JOptionPane.PLAIN_MESSAGE, null, tiles, "Tile");
 					if(s != null && !s.equals("Tile")){
 						switch(s){
@@ -83,6 +84,26 @@ public class InterfaceScreen extends JPanel {
 							break;
 						case "Water":
 							GameScreen.getLevel().getBrush().setBrushType(TileConstants.ID_WATER);
+							break;
+						case "Desert":
+							GameScreen.getLevel().getBrush().setBrushType(TileConstants.ID_DESERT);
+							break;
+						case "Stone":
+							GameScreen.getLevel().getBrush().setBrushType(TileConstants.ID_STONE);
+							break;
+						}
+					}
+				}
+				else if(optionsList.getSelectedIndex() == 2){
+					Object[] tools = {"Pencil", "Rectangle"};
+					String tool = (String)JOptionPane.showInputDialog(null, "Tools", "Input", JOptionPane.PLAIN_MESSAGE, null, tools, "Tool");
+					if(tool != null){
+					switch(tool){
+						case "Pencil":
+							GameScreen.getLevel().getBrush().setToolType(BrushConstants.BRUSH_PENCIL);
+							break;
+						case "Rectangle":
+							GameScreen.getLevel().getBrush().setToolType(BrushConstants.BRUSH_FLOOD);
 							break;
 						}
 					}
